@@ -1,15 +1,13 @@
 /* eslint linebreak-style: ["error", "windows"]*/
 
-import {store} from '../createStore';
+//import {store} from '../createStore';
 
 
-let currentState;
 let accessToken;
 
 // Haetaan access token välimuistista
-export function getAccessToken() {
-	currentState = store.getState();
-	accessToken = currentState.user.accessToken;
+export function getAccessToken(token) {
+	accessToken = token;
 }
 
 

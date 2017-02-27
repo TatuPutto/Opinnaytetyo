@@ -22,6 +22,7 @@ require('../css/creategist.less');
 require('../css/comments.less');
 
 
+//store.dispatch(fetchUserInfo());
 const userInfo = getUserInfoFromCookie();
 
 if(userInfo.length > 0) {
@@ -29,7 +30,6 @@ if(userInfo.length > 0) {
 } else {
 	window.location.href = "/opinnaytetyo/login";
 }
-
 
 ReactDOM.render(
 	<Provider store={store}>

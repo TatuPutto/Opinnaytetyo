@@ -21,7 +21,7 @@ class GistActions extends React.Component {
 					<i className={starIcon}/> {starredStatus}
 				</button>
 
-				<Link to={'/Opinnaytetyo_spring_react/edit/' + id}>
+				<Link to={'/opinnaytetyo/edit/' + id}>
 					<button className='edit'>
 						<i className='fa fa-edit'/> Muokkaa
 					</button>

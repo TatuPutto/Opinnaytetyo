@@ -11,6 +11,7 @@ class GistListItem extends React.Component {
 			updatedAt,
 			language,
 			setActive,
+			addFilter,
 			color,
 		} = this.props;
 		let {filename, description} = this.props;
@@ -28,7 +29,6 @@ class GistListItem extends React.Component {
 					description : description.substring(0, 150) + '...';
 		}
 
-
 		// Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri.
 		const languageSpanColor = {backgroundColor: color};
 
@@ -41,10 +41,11 @@ class GistListItem extends React.Component {
 			<li className={isActive} id={id} onClick={() => setActive(id)}>
 				<div className='content-wrapper'>
 					<h2 className='title'>
-						<Link to={'/Opinnaytetyo_spring_react/search/' + owner}>
-							{owner} /&nbsp;
+						<Link to={'/opinnaytetyo/search/' + owner}>
+							{owner}
 						</Link>
-						<Link to={'/Opinnaytetyo_spring_react/gist/' + id}>
+						&nbsp;/&nbsp;
+						<Link to={'/opinnaytetyo/gist/' + id}>
 							{filename}
 						</Link>
 					</h2>
@@ -54,9 +55,15 @@ class GistListItem extends React.Component {
 					<span className='created'>
 						Luotu: {updatedAt}
 					</span>
-					<span className='language' style={{backgroundColor: color}}>
-						{language}
-					</span>
+					{language &&
+						<span
+							className='language'
+							onClick={() => addFilter(language)}
+							style={{backgroundColor: color}}
+						>
+							<i className='fa fa-tag' /> {language}
+						</span>
+					}
 				</div>
 			</li>
 		);

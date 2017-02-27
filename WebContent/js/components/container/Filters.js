@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
+
 import {
 	fetchGists,
 	sortOldestToNewest,
@@ -12,7 +13,7 @@ import {
 	removeFilter,
 } from '../../actions/actions';
 
-import FilteringView from '../presentational/listing/FilteringView';
+import FilterByLanguage from '../presentational/listing/FilterByLanguage';
 
 
 class Filters extends React.Component {
@@ -34,7 +35,7 @@ class Filters extends React.Component {
 
 	fetch(e) {
 		const fetchMethod = e.target.value;
-		this.context.router.push('/Opinnaytetyo_spring_react/' + fetchMethod);
+		this.context.router.push('/opinnaytetyo/' + fetchMethod);
 	}
 
 
@@ -64,8 +65,8 @@ class Filters extends React.Component {
 		const {languages} = this.props.filters;
 
 		return (
-			<div className='filtering-options'>
-				<div>
+			<div className='filters'>
+				<div className='filtering-options'>
 					<button className='refresh' onClick={this.refresh}>
 						<i className='fa fa-refresh' />
 					</button>
@@ -80,14 +81,16 @@ class Filters extends React.Component {
 						<option value='discover'>Discover</option>
 						<option value='search' disabled>Haku</option>
 					</select>
+
+					<FilterByLanguage actions={this.props.filteringActions} />
 				</div>
 
-				<FilteringView actions={this.props.filteringActions} />
+
 
 				{languages &&
 					<div className='active-filters'>
 						{languages.map((language) =>
-							<p key={language} className='filters' onClick={this.removeFilter}>
+							<p key={language} className='language-filter' onClick={this.removeFilter}>
 								{language} <i className='fa fa-remove' />
 							</p>
 						)}

@@ -1,7 +1,16 @@
 import React from 'react';
 import {Link} from 'react-router';
+import $ from 'jquery';
+
+import {storeSearchQuery, getSearchQueries} from '../../../utility/persistUserInfo';
+import Suggestions from '../listing/FilterByLanguage/Suggestions';
+
 
 class SearchBar extends React.Component {
+	static contextTypes = {
+		router: React.PropTypes.object.isRequired
+	}
+
 	constructor() {
 		super();
 		this.getInput = this.getInput.bind(this);
@@ -9,12 +18,15 @@ class SearchBar extends React.Component {
 		this.state = {input: ''};
 	}
 
+
 	getInput(e) {
 		this.setState({input: e.target.value});
 	}
 
 	doSearch() {
-		this.props.search(this.state.input);
+		this.context.router.push('/opinnaytetyo/search/' + this.state.input);
+		this.setState({input: ''});
+		$('.search-input').val('');
 	}
 
 	render() {
@@ -27,11 +39,16 @@ class SearchBar extends React.Component {
 					onChange={this.getInput}
 				/>
 
-				<Link to={'/Opinnaytetyo_spring_react/search/' + this.state.input}>
+				<button className='do-search' onClick={this.doSearch}>
+					<i class="fa fa-search" />
+				</button>
+				
+
+				{/* }<Link to={'/opinnaytetyo/search/' + this.state.input}>
 					<button className='do-search'>
 						<i class="fa fa-search" />
 					</button>
-				</Link>
+				</Link>*/}
 			</div>
 		);
 	}

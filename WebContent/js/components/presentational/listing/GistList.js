@@ -8,6 +8,7 @@ import GistListItem from './GistListItem';
 import PaginationLinks from './PaginationLinks';
 import { fetchSelectedGist, fetchMoreGists } from '../../../actions/actions';
 
+import {filterByLanguage} from '../../../utility/filterByLanguage';
 //Ladataan värikoodit ohjelmointikielille
 const colors = require("../../../../static/colors.json");
 
@@ -33,10 +34,14 @@ class GistList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		//Scrollataan listan alkuun discover-toiminnallisuudessa sivua vaihdettaessa.
-		/*if(nextProps.currentPage !== this.props.currentpage
+	/*if(nextProps.currentPage !== this.props.currentpage
 				&& nextProps.gists.items.length > 0) {
 			ReactDOM.findDOMNode(this.refs.gistlist).scrollTop = 0;
-		}*/
+			this.props.setActive(nextProps.gists.items[0].id);
+		}
+
+
+		if(nextProps.gists.items.length > 0 && nextProps.gists.items[0] )*/
 	}
 
 	/**
@@ -86,10 +91,11 @@ class GistList extends React.Component {
 					owner={gist.owner.login}
 					activeGistId={this.props.activeGistId}
 					setActive={this.props.setActive}
+					addFilter={this.props.addFilter}
 				/>
 			);
 		}, this);
-	
+
 		//Renderöidään lista ja asetetaan GistListItem-komponentista luodut ilmentymät listan sisällöksi.
 		return (
 			<div className='gist-list' ref='gistlist'>
@@ -125,7 +131,7 @@ class GistList extends React.Component {
 }
 
 
-import { filterByLanguage } from '../../../utility/filterByLanguage';
+
 
 let activeId;
 function mapStateToProps(state) {

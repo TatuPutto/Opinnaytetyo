@@ -31,12 +31,15 @@ class SingleGist extends React.Component {
 
 
 	render() {
-		const {isFetching, gist, comments} = this.props;
+		const {isFetching, fetchError, gist, comments} = this.props;
 
-		console.log(comments);
-		if(isFetching || !gist.hasOwnProperty('id')) {
-			return <div className='loading'></div>;
-		} else {
+		if(isFetching || !gist.hasOwnProperty('id') && !fetchError) {
+			return (
+				<div className='single'>
+					<div className='loading'></div>
+				</div>
+			);
+		} else if(!isFetching && gist.hasOwnProperty('id')) {
 			const files = gist.files.map((file, i) => {
 				return (
 					<ReadOnlyGistFile
@@ -67,6 +70,14 @@ class SingleGist extends React.Component {
 					</div>
 				</div>
 	   	 	);
+		} else {
+			return (
+				<div className='single'>
+					<div className='error'>
+						Etsimääsi gistiä ei löytynyt tai sitä ei pystytty lataamaan ({fetchError}).
+					</div>
+				</div>
+			);
 		}
 	}
 }
@@ -76,7 +87,8 @@ function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
 		comments: state.activeGist.comments,
-		isFetching: state.activeGist.isFetching
+		isFetching: state.activeGist.isFetching,
+		fetchError: state.activeGist.fetchError
 	};
 }
 

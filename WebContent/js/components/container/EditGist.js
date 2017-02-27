@@ -142,12 +142,16 @@ class EditGist extends React.Component {
 
 
 	render() {
-		const {gist, isFetching} = this.props;
+		const {gist, isFetching, fetchError} = this.props;
 		const {originalFiles, files} = this.state;
 
-		if(isFetching || !gist.hasOwnProperty('id')) {
-			return <div className='loading'></div>;
-		} else {
+		if(isFetching || !gist.hasOwnProperty('id') && !fetchError) {
+			return (
+				<div className='create'>
+					<div className='loading'></div>
+				</div>
+			);
+		} else if(!isFetching && gist.hasOwnProperty('id')) {
 			// Luodaan tiedostokentät, jotka ovat aktiivisia.
 			const fileFields = this.state.files.map((file) => {
 				if(file.isActive) {
@@ -186,6 +190,14 @@ class EditGist extends React.Component {
 					</div>
 				</div>
 			);
+		} else {
+			return (
+				<div className='create'>
+					<div className='error'>
+						Gistiä ei löytynyt tai sitä ei pystytty lataamaan ({fetchError}).
+					</div>
+				</div>
+			);
 		}
 	}
 }
@@ -195,15 +207,12 @@ function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
 		isFetching: state.activeGist.isFetching,
+		fetchError: state.activeGist.fetchError,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		sendDataToEdit: (id, gistJson) => {
-			dispatch(editGist(id, gistJson));
-		},
-	};
+	return {sendDataToEdit: (id, gistJson) => dispatch(editGist(id, gistJson))};
 }
 
 

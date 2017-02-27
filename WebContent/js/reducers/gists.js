@@ -35,7 +35,13 @@ export function gists(state = {
 */
 		//@gists.js
 		case 'FETCH_GISTS_SUCCESS':
-			return {...state, items: action.gists, fetchedAt: action.fetchedAt, isFetching: false};
+			return {
+				...state,
+				items: action.gists,
+				fetchedAt: action.fetchedAt,
+				isFetching: false,
+				fetchError: null,
+			};
 			break;
 
 

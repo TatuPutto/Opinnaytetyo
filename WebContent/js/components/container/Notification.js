@@ -7,7 +7,7 @@ import {closeNotification} from '../../actions/actions';
 class Notification extends React.Component {
 	componentDidUpdate() {
 		$('.notification-time-left').animate({
-			width: '100%'
+			width: '100%',
 		}, 4000, 'linear', () => this.props.close());
 	}
 
@@ -39,7 +39,7 @@ function mapStateToProps(state) {
 	return {
 		isOpen: state.notifications.isOpen,
 		notificationType: state.notifications.notificationType,
-		message: state.notifications.message
+		message: state.notifications.message,
 	};
 }
 

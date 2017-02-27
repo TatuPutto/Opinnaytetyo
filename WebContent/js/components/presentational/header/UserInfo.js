@@ -20,18 +20,14 @@ class UserInfo extends React.Component {
 
 	render() {
 		return (
-			<div className='user-info col-lg-4'>
+			<div className='user-info'>
 				<div className='user-info-details' onClick={this.toggleDropdown}>
 					<img className='user-avatar' src={this.props.avatarUrl} />
 					<p>{this.props.userLogin}</p>
-					<i className='fa fa-sort-down' />
-					{/*
-					<div className='logout'>
-						<Link to='/Opinnaytetyo_spring_react/logout'>Kirjaudu ulos</Link>
-					</div>*/}
-
-
+					<a href="/opinnaytetyo/logout">Kirjaudu ulos</a>
+					{/*}<i className='fa fa-sort-down' />*/}
 				</div>
+				{/*
 				<div>
 					{this.state.isDropdownOpen &&
 						<UserInfoDropdown
@@ -40,6 +36,7 @@ class UserInfo extends React.Component {
 						/>
 					}
 				</div>
+				*/}
 			</div>
 		);
 	}

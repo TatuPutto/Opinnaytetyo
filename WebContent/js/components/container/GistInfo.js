@@ -32,7 +32,7 @@ class GistInfo extends React.Component {
 				<div className='gist-info'>
 					<span className='owner'>
 						<img id='owner-avatar' src={gist.owner.avatar_url} />
-						<Link to={'/Opinnaytetyo_spring_react/search/' + gist.owner.login} id='view-gist'>
+						<Link to={'/opinnaytetyo/search/' + gist.owner.login} id='view-gist'>
 							{gist.owner.login}
 						</Link>
 					</span>
@@ -58,7 +58,7 @@ class GistInfo extends React.Component {
 					}
 
 				<div className='active-gist-info'>
-					<Link to={'/Opinnaytetyo_spring_react/gist/' + gist.id}>
+					<Link to={'/opinnaytetyo/gist/' + gist.id}>
 						<h2 className='active-gist-name'>
 							{gist.files[0].filename}
 						</h2>
