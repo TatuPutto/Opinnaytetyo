@@ -17,7 +17,7 @@ export function fetchGistsOnEnter(nextState) {
 	fetchMethod = fetchMethod == null ? 'gists' : fetchMethod[0];
 
 	// Haetaanko gistit, vai käytetäänkö välimuistista löytyviä gistejä.
-	//if(shouldFetch(store.getState(), fetchMethod, nextState.params.page)) {
+//	if(shouldFetch(store.getState(), fetchMethod, nextState.params.page)) {
 		if(fetchMethod === 'discover') {
 			return store.dispatch(fetchLatestPublicGists(nextState.params.page));
 		} else if(fetchMethod === 'search') {
@@ -26,19 +26,23 @@ export function fetchGistsOnEnter(nextState) {
 			return store.dispatch(fetchStarredGists());
 		} else {
 			return store.dispatch(fetchGists());
+			//return store.dispatch(fetchGists(fetchMethod, page, user));
 		}
-	//}
+
+	// }
 }
 
 // Haetaan gist näkymään saavuttaessa.
 export function fetchSelectedGistOnEnter(nextState) {
-	let requestedGistId = nextState.params.gistId;
-	let state = store.getState();
+	const state = store.getState();
+	const activeGistId = state.activeGist.id;
+	const requestedGistId = nextState.params.gistId;
+
+
 
 	// Haetaan gist, jos tilaan ei ole tallennettu gistiä
 	// tai käyttäjän pyytämä gist ei vastaa tilaan tallennettua gist.
-	if(!state.activeGist.gist.hasOwnProperty('id') ||
-			state.activeGist.gistId !== requestedGistId) {
+	if(activeGistId === null || activeGistId !== requestedGistId) {
 		return store.dispatch(fetchSelectedGist(requestedGistId));
 	}
 }

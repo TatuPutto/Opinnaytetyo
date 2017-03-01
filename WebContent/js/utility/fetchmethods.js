@@ -1,47 +1,50 @@
-import {accessToken} from '../actions/useractions';
+let defaultParams = {};
 
-// Muodostetaan pyyntö ilman sisältöä.
-export function sendRequest(url, httpMethod) {
-	const fetchInit = {
-		method: httpMethod,
+export function setAcccessToken(accessToken) {
+	defaultParams = {
 		headers: {
 			'Accept': 'application/json',
+			'Content-type': 'application/json',
 			'Authorization': 'token ' + accessToken,
+
 		},
-	};
-
-	// Lähetetään pyyntö.
-	return fetch(url, fetchInit);
-}
-
-
-// Muodostetaan pyynnöön otsikot sekä sisältö ja lähetetään pyyntö.
-export function sendRequestWithContent(url, httpMethod, content = null) {
-	const fetchInit = {
-		method: httpMethod,
-		body: content,
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-			'Content-length': content.length,
-			'Authorization': 'token ' + accessToken,
-		},
-	};
-
-	return fetch(url, fetchInit);
-}
-
-
-// Tarkistetaan onnistuiko pyyntö.
-export function checkStatus(response) {
-	if(response.ok) {
-		return Promise.resolve(response);
-	} else {
-		throw new Error(response.status + ' ' + response.statusText);
 	}
 }
 
-// Luetaan vastauksen sisältö.
-export function readJson(response) {
-	return response.json();
+export function create(url, content) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'POST',
+		body: JSON.stringify(content),
+	});
+}
+
+export function read(url) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'GET',
+	});
+}
+
+export function patch(url, content) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'PATCH',
+		body: JSON.stringify(content),
+	});
+}
+
+export function update(url, content) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'PUT',
+		body: JSON.stringify(content),
+	});
+}
+
+export function destroy(url) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'DELETE',
+	});
 }

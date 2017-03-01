@@ -57,22 +57,34 @@ export function doesUserInfoCookieExist() {
 	return false;
 }
 
-/*
 export function getUserInfoFromCookie() {
-	let cookies = document.cookie.split(';');
-	let accessToken;
+	const cookies = document.cookie.split(';');
+	let userInfo = [];
 
 	for(let i = 0; i < cookies.length; i++) {
-		let name = cookies[i].split('=')[0].trim();
+		let key = cookies[i].split('=')[0].trim();
+		let value = cookies[i].split('=')[1];
 
-		if(name === 'accesstoken') {
-			accessToken = cookies[i].split('=')[1];
+		switch(key) {
+			case 'id':
+				userInfo[0] = value;
+				break;
+			case 'login':
+				userInfo[1] = value;
+				break;
+			case 'avatarurl':
+				userInfo[2] = value.substring(1, value.length - 1);
+				break;
+			case 'accesstoken':
+				userInfo[3] = value;
+				break;
 		}
 	}
-
-	return accessToken;
+	
+	console.log(userInfo);
+	return userInfo;
 }
-*/
+
 export function storeSearchQuery(searchTerm) {
 	if(typeof(Storage) !== 'undefined') {
 		let searchHistory = localStorage.getItem('searchHistory');
@@ -129,31 +141,4 @@ function sortAlphabetically(suggestions) {
 		if(a > b) return 1;
 	});
 	return sortedSuggestions;
-}
-
-
-export function getUserInfoFromCookie() {
-	const cookies = document.cookie.split(';');
-	let userInfo = [];
-	
-	for(let i = 0; i < cookies.length; i++) {
-		let key = cookies[i].split('=')[0].trim();
-		let value = cookies[i].split('=')[1];
-		
-		switch(key) {
-			case 'id': 
-				userInfo[0] = value;
-				break;
-			case 'login': 
-				userInfo[1] = value;
-				break;
-			case 'avatarurl': 
-				userInfo[2] = value.substring(1, value.length - 1);
-				break;
-			case 'accesstoken': 
-				userInfo[3] = value;
-				break;
-		}
-	}
-	return userInfo;
 }

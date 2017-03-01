@@ -1,13 +1,15 @@
 /* eslint linebreak-style: ["error", "windows"]*/
 
-//import {store} from '../createStore';
+import {store} from '../createStore';
 
 
+let currentState;
 let accessToken;
 
 // Haetaan access token välimuistista
-export function getAccessToken(token) {
-	accessToken = token;
+export function getAccessToken() {
+	currentState = store.getState();
+	accessToken = currentState.user.accessToken;
 }
 
 
@@ -43,7 +45,7 @@ export function sendRequestWithContent(url, httpMethod, content = null) {
 }
 
 
-//Tarkistetaan onnistuiko pyyntö.
+// Tarkistetaan onnistuiko pyyntö.
 export function checkStatus(response) {
 	if(response.ok) {
 		return Promise.resolve(response);
@@ -52,7 +54,7 @@ export function checkStatus(response) {
 	}
 }
 
-//Luetaan vastauksen sisältö.
+// Luetaan vastauksen sisältö.
 export function readJson(response) {
 	return response.json();
 }

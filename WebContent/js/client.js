@@ -4,9 +4,10 @@ import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 
 import {store} from './createStore';
-import {fetchSelectedGistOnEnter, fetchGistsOnEnter, login} from './hooks';
+import {fetchSelectedGistOnEnter, fetchGistsOnEnter} from './hooks';
 import {fetchUserInfo, receiveUserInfo} from './actions/actions';
 import {getUserInfoFromCookie} from './utility/persistUserInfo';
+
 
 import Root from './components/container/Root';
 import ListingPage from './components/presentational/listing/ListingPage';
@@ -22,14 +23,15 @@ require('../css/creategist.less');
 require('../css/comments.less');
 
 
-//store.dispatch(fetchUserInfo());
 const userInfo = getUserInfoFromCookie();
-
 if(userInfo.length > 0) {
 	store.dispatch(receiveUserInfo(userInfo));
 } else {
 	window.location.href = "/opinnaytetyo/login";
 }
+
+//store.dispatch(fetchUserInfo());
+
 
 ReactDOM.render(
 	<Provider store={store}>

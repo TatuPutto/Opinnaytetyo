@@ -71,6 +71,7 @@ class Filters extends React.Component {
 						<i className='fa fa-refresh' />
 					</button>
 
+
 					<select
 						className='select-fetch-method'
 						value={this.props.fetchMethod}
@@ -81,8 +82,20 @@ class Filters extends React.Component {
 						<option value='discover'>Discover</option>
 						<option value='search' disabled>Haku</option>
 					</select>
-
-					<FilterByLanguage actions={this.props.filteringActions} />
+{/*
+					<div className='change-gist-type'>
+						<button className={this.props.fetchMethod === 'gists' ? 'active-type': ''}
+								onClick={() => this.fetch('gists')}>Omat gistit</button>
+						<button className={this.props.fetchMethod === 'starred' ? 'active-type': ''}
+								onClick={() => this.fetch('starred')}>Suosikit</button>
+						<button className={this.props.fetchMethod === 'discover' ? 'active-type': ''}
+								onClick={() => this.fetch('discover')}>Discover</button>
+					</div>
+*/}
+					<FilterByLanguage
+						actions={this.props.filteringActions}
+						activeFilters={languages}
+					/>
 				</div>
 
 

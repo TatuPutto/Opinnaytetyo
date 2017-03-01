@@ -1,0 +1,103 @@
+@default-font-family: sans-serif;
+//@default-border-color: #A9A9A9;
+@default-border-color: #d4cece;
+@default-border-radius: 2px;
+@default-anchor-color: #0000EE;
+
+
+body {
+	//margin: 0px;
+	font-family: sans-serif;
+}
+
+h2 {
+	font-family: @default-font-family;
+	font-size: 16px;
+	font-weight: normal;
+	margin: 0px;
+}
+
+h3 {
+	display: inline;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0px;
+}
+
+span {
+	display: inline-block;
+}
+
+input:focus,
+select:focus,
+button:focus {
+    outline: none;
+}
+
+
+select {
+	border-width: 1px;
+    border-style: solid;
+    border-color: @default-border-color;
+	border-radius: @default-border-radius;
+}
+
+input[type="text"] {
+	padding-left: 5px;
+	padding-right: 5px;
+	border-width: 1px;
+    border-style: solid;
+    border-color: @default-border-color;
+	border-radius: @default-border-radius;
+}
+
+button {
+    background: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: @default-border-color;
+	border-radius: @default-border-radius;
+	cursor: pointer;
+    font-family: @default-font-family;
+    font-size: 14px;
+    height: 30px;
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 4px;
+	vertical-align: top;
+}
+
+button:hover {
+	border-color: #a5a4a4;
+    background: #f9f7f7;
+}
+
+a {
+    color: @default-anchor-color;
+	text-decoration: none;
+}
+
+a:hover {
+    color: @default-anchor-color;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: @default-anchor-color;
+}
+
+a:active {
+    color: @default-anchor-color;
+}
+
+::-webkit-scrollbar {
+ 	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+ 	background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}

@@ -1,4 +1,4 @@
-@default-font-family: sans-serif;
+@default-font-family: 'Roboto', sans-serif;
 //@default-border-color: #A9A9A9;
 @default-border-color: #d4cece;
 @default-border-radius: 2px;
@@ -13,7 +13,7 @@ body {
 h2 {
 	font-family: @default-font-family;
 	font-size: 16px;
-	font-weight: normal;
+	font-weight: bold;
 	margin: 0px;
 }
 
@@ -72,26 +72,40 @@ button:hover {
     background: #f9f7f7;
 }
 
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.7;
+	/*background: url(http://localhost:9090/images/loading.gif);
+	background-repeat: no-repeat;
+	background-size: 17px 17px;
+	background-position: 10px 50%;
+	padding-left: 35px;*/
+}
+
 a {
-    color: @default-anchor-color;
+    //color: @default-anchor-color;
+	color: #65a2f1;
 	text-decoration: none;
 }
 
 a:hover {
-    color: @default-anchor-color;
+    //color: @default-anchor-color;
+	color: #65a2f1;
 	text-decoration: underline;
 }
 
 a:visited {
-	color: @default-anchor-color;
+	//color: @default-anchor-color;
+	color: #65a2f1;
 }
 
 a:active {
-    color: @default-anchor-color;
+    //color: @default-anchor-color;
+	color: #65a2f1;
 }
 
 ::-webkit-scrollbar {
- 	width: 5px;
+ 	width: 6px;
 }
 
 ::-webkit-scrollbar-track {

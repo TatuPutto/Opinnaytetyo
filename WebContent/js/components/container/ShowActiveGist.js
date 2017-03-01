@@ -4,75 +4,48 @@ import $ from 'jquery';
 
 import GistInfo from './GistInfo';
 import ReadOnlyGistFile from '../presentational/reusable/ReadOnlyGistFile';
-
+import GistFiles from '../presentational/listing/GistFiles';
 
 class ShowActiveGist extends React.Component {
-
-	static propTypes = {
-		gist: PropTypes.object.isRequired,
-		isFetchingGists: PropTypes.bool.isRequired,
-		//isFetchingSelectedGist: PropTypes.bool.isRequired
-	};
-
-
 	render() {
-		const {isFetching, gist} = this.props.gist;
-		const isFetchingGists = this.props.isFetchingGists;
+		const isListLoading = this.props.isListLoading;
+		const {
+			id,
+			files,
+			isFetching,
+			isFetchingFiles,
+			fetchError,
+		} = this.props.gist;
 
-		if(!isFetchingGists && isFetching) {
+
+		if(!isListLoading && isFetching && !fetchError) {
 			return <div className='loading'></div>;
-		}
-		//Jos lista ja aktiivinen gist on ladattu renderöidään aktiivinen gist
-		else if(!isFetchingGists && !isFetching && gist.hasOwnProperty('id')) {
-
-			//Käydään gistin sisältämät tiedostot läpi ja luodaan jokaista
-			//tiedostoa kohden yksi ilmentymä ReadOnlyGistFile-komponentista.
-			const files = gist.files.map((file, index) => {
-				return (
-					<ReadOnlyGistFile
-						key={file.filename}
-						id={gist.id}
-						filename={file.filename}
-						value={file.content}
-						editorId={'editor' + index}
-						isReadOnly={true}
-					/>
-				);
-			});
-		
+		} else if(!isListLoading && !isFetching && id !== null && !fetchError) {
 			//Renderöidään inforuutu ja tiedostokentät.
 			return (
 				<div className='show-active-gist'>
-					<GistInfo
-						gist={this.props.gist}
-						userId={this.props.userId}
-						gistActions={this.props.gistActions}
-					/>
-
-
-					<div className='gist-files'>
-						{files}
-					</div>
+					<GistInfo />
+					{!isFetchingFiles &&
+						<GistFiles files={files} />
+					}
+					{isFetchingFiles &&
+						<div className='loading-files'></div>
+					}
 				</div>
 	   	 	);
-
-		}
-		else {
+		} else {
 			return <div></div>;
 		}
 	}
-
 }
 
-/*
+
 function mapStateToProps(state) {
 	return {
-		gist: state.activeGist.gist,
-		isFetchingGists: state.gists.isFetching,
-		isFetchingSelectedGist: state.activeGist.isFetching,
+		gist: state.activeGist,
+		isListLoading: state.gists.isFetching,
+
 	}
-}*/
+}
 
-//export default connect(mapStateToProps)(ShowActiveGist);
-
-export default ShowActiveGist;
+export default connect(mapStateToProps)(ShowActiveGist);

@@ -1,15 +1,14 @@
 const languages = require('../../static/colors.json');
 
-export function setSuggestions(value) {
+export function setSuggestions(input, activeFilters) {
 	let suggestions = [];
 
-	if(value) {
-		for(let key in languages) {
-			if(languages.hasOwnProperty(key)) {
-				let match = key.toLowerCase().indexOf(value.toLowerCase());
-
+	if(input) {
+		for(let language in languages) {
+			if(!activeFilters.includes(language)) {
+				let match = language.toLowerCase().indexOf(input.toLowerCase());
 				if(match !== -1) {
-					suggestions.push(key);
+					suggestions.push(language);
 				}
 			}
 		}

@@ -5,23 +5,20 @@ class GistListItem extends React.Component {
 
 	render() {
 		const {
-			owner,
 			id,
+			owner,
+			ownerAvatar,
 			activeGistId,
-			updatedAt,
+			createdAt,
 			language,
 			setActive,
 			addFilter,
 			color,
+			fileCount,
+			commentsAmount,
 		} = this.props;
+
 		let {filename, description} = this.props;
-
-
-		if(filename) {
-			// Lyhennetään gistin nimeä, jos nimi on yli 80 merkkiä pitkä
-			filename = ((owner.length + filename.length) < 80) ?
-					filename : filename.substring(0, 80) + '...';
-		}
 
 		if(description) {
 			// Lyhennetään kuvausta, jos kuvaus on yli 150 merkkiä pitkä
@@ -29,32 +26,54 @@ class GistListItem extends React.Component {
 					description : description.substring(0, 150) + '...';
 		}
 
-		// Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri.
-		const languageSpanColor = {backgroundColor: color};
-
-		//Tarkistetaan onko tämä gist asetettu aktiiviseksi.
+		// Tarkistetaan onko tämä gist asetettu aktiiviseksi.
 		const isActive = activeGistId === id ?
 				'single-gist active' : 'single-gist';
 
-		//Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti.
+		// Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti.
 		return (
-			<li className={isActive} id={id} onClick={() => setActive(id)}>
+			<li className={isActive} id={id} onClick={() => setActive(id, this.props.gist)}>
 				<div className='content-wrapper'>
-					<h2 className='title'>
-						<Link to={'/opinnaytetyo/search/' + owner}>
-							{owner}
-						</Link>
-						&nbsp;/&nbsp;
-						<Link to={'/opinnaytetyo/gist/' + id}>
-							{filename}
-						</Link>
-					</h2>
+
+				<div className='block-level'>
+					<span className={'owner-avatar'}>
+						<img src={ownerAvatar} />
+					</span>
+					<span className='title-wrapper'>
+						<span className={'title'}>
+							<h2>
+								<Link to={'/opinnaytetyo/gist/' + id}>
+									{filename}
+								</Link>
+							</h2>
+						</span>
+						<br />
+						<span className={'creation-info'}>
+							<Link to={'/opinnaytetyo/search/' + owner}>
+								{owner}
+							</Link>
+
+							&nbsp;| {createdAt}
+						</span>
+					</span>
+				</div>
+
+
 					<div className='description'>
 						{description}
 					</div>
-					<span className='created'>
+				 {/*}	<span className='created'>
 						Luotu: {updatedAt}
+					</span>*/}
+
+					<span className='file-count'>
+						<i className='fa fa-file-code-o' /> {fileCount}
 					</span>
+
+					<span className='comments-amount'>
+						<i className='fa fa-comments-o' /> {commentsAmount}
+					</span>
+
 					{language &&
 						<span
 							className='language'

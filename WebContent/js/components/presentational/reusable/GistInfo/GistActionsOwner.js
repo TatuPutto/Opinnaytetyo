@@ -23,7 +23,7 @@ class GistActions extends React.Component {
 
 				<Link to={'/opinnaytetyo/edit/' + id}>
 					<button className='edit'>
-						<i className='fa fa-edit'/> Muokkaa
+						<i className='fa fa-edit' /> Muokkaa
 					</button>
 				</Link>
 

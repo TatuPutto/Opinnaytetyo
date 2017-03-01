@@ -1,8 +1,21 @@
 export function parseSingleGistJson(gistJson) {
-	let gist = Object.assign({}, gistJson, {
+	let gist = {
+		id: gistJson.id,
+		description: gistJson.description,
+		files: parseFilesWithSource(gistJson.files),
+		owner: parseOwnerInfo(gistJson.owner),
+		isPublic: gistJson.isPublic,
+		createdAtUnformatted: gistJson.created_at,
+		updatedAtUnformatted: gistJson.updated_at,
+		createdAt: formatTime(gistJson.created_at),
+		updatedAt: formatTime(gistJson.updated_at),
+		forkInfo: parseForkInfo(gistJson.fork_of),
+	};
+	/* let gist = Object.assign({}, gistJson, {
 		files: parseFilesWithSource(gistJson.files),
 		formattedTime: formatTime(gistJson.updated_at),
-	});
+		owner: parseOwnerInfo(gistJson.owner),
+	});*/
 
 	return gist;
 }
@@ -25,9 +38,12 @@ export function parseMultipleGistsJson(gistsJson) {
 			gists.push({
 				id: gist.id,
 				description: gist.description,
-				formattedTime: formatTime(gist.created_at),
+				createdAt: formatTime(gist.created_at),
+				updatedAt: formatTime(gist.updated_at),
 				files: parseFiles(gist.files),
+				commentsAmount: gist.comments,
 				owner: parseOwnerInfo(gist.owner),
+				isPublic: gist.public,
 			});
 		}
 	});
@@ -43,7 +59,7 @@ function parseFiles(json) {
 		let singleFile = {};
 		singleFile['filename'] = json[key].filename;
 		singleFile['language'] = json[key].language;
-
+		singleFile['size'] = json[key].size;
 		files.push(singleFile);
 	}
 
@@ -51,7 +67,7 @@ function parseFiles(json) {
 }
 
 
-function parseFilesWithSource(json) {
+export function parseFilesWithSource(json) {
 	let files = [];
 
 	for (let key in json) {
@@ -76,11 +92,26 @@ function parseOwnerInfo(ownerJson) {
 			owner['id'] = ownerJson.id;
 			owner['login'] = ownerJson.login;
 			owner['avatarUrl'] = ownerJson.avatar_url;
-
 			return owner;
 		}
 	} finally {
 		return owner;
+	}
+}
+
+function parseForkInfo(forkJson) {
+	let fork = {};
+
+	try {
+		if(forkJson == null) {
+		} else {
+			fork['id'] = forkJson.id;
+			//fork['name'] = forkJson.files[0].filename;
+			fork['owner'] = forkJson.owner.login;
+			return fork;
+		}
+	} catch(error) {
+		return null;
 	}
 }
 

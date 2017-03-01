@@ -20,14 +20,14 @@ class EditGist extends React.Component {
 
 	// Gist on ladattu välimuistista näkymään saavuttaessa.
 	componentDidMount() {
-		if(this.props.gist.hasOwnProperty('id')) {
+		if(this.props.gist.id !== null) {
 			this.initializeFiles(this.props.gist.files);
 		}
 	}
 
 	// Gist täytyy hakea -> viivytetään tiedostokenttien alustamista, kunnes haku on valmis.
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.gist.hasOwnProperty('id')) {
+		if(nextProps.gist.id !== null) {
 			this.initializeFiles(nextProps.gist.files);
 		}
 	}
@@ -80,7 +80,6 @@ class EditGist extends React.Component {
 		const {sendDataToEdit, gist} = this.props;
 		const {files, originalFiles} = this.state;
 		let description = $('.description').val();
-
 
 		// Haetaan tiedostonimet DOM:sta.
 		let filenames = document.getElementsByClassName('filename');
@@ -137,21 +136,23 @@ class EditGist extends React.Component {
 			data['files'] = modifiedFiles;
 		}
 
-		this.props.sendDataToEdit(gist.id, JSON.stringify(data));
+		this.props.sendDataToEdit(gist.id, data);
 	}
 
 
 	render() {
-		const {gist, isFetching, fetchError} = this.props;
+		const {gist, isFetching, isEditing, fetchError} = this.props;
 		const {originalFiles, files} = this.state;
 
-		if(isFetching || !gist.hasOwnProperty('id') && !fetchError) {
+		const editingStatus = isEditing ? 'Muokataan...' : 'Muokkaa';
+
+		if(isFetching || gist.id === null && !fetchError) {
 			return (
 				<div className='create'>
 					<div className='loading'></div>
 				</div>
 			);
-		} else if(!isFetching && gist.hasOwnProperty('id')) {
+		} else if(!isFetching && gist.id !== null) {
 			// Luodaan tiedostokentät, jotka ovat aktiivisia.
 			const fileFields = this.state.files.map((file) => {
 				if(file.isActive) {
@@ -180,12 +181,21 @@ class EditGist extends React.Component {
 							{fileFields}
 						</div>
 
-						<button id='add-file' onClick={this.addFile}>
+						<button
+							id='add-file'
+							onClick={this.addFile}
+							disabled={isEditing}
+						>
 							<i className='fa fa-file-text-o'></i> Lisää tiedosto
 						</button>
 
-						<button id='update-gist' onClick={() => this.getEditInfo(false)}>
-							<i className='fa fa-edit'></i> Muokkaa
+						<button
+							id='update-gist'
+							onClick={() => this.getEditInfo(false)}
+							disabled={isEditing}
+						>
+							<i className={isEditing ?
+									'fa fa-spinner fa-spin' : 'fa fa-edit'} /> {editingStatus}
 						</button>
 					</div>
 				</div>
@@ -205,8 +215,9 @@ class EditGist extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		gist: state.activeGist.gist,
+		gist: state.activeGist,
 		isFetching: state.activeGist.isFetching,
+		isEditing: state.miscActions.isEditing,
 		fetchError: state.activeGist.fetchError,
 	};
 }

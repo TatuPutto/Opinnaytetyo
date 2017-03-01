@@ -31,8 +31,8 @@ class FilterByLanguage extends React.Component {
 	}
 
 	getSuggestions(e) {
-		const value = e.target.value;
-		const suggestions = setSuggestions(value);
+		const input = e.target.value;
+		const suggestions = setSuggestions(input, this.props.activeFilters);
 		this.setState({suggestions, suggestionsVisible: true});
 	}
 

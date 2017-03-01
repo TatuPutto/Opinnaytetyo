@@ -33,13 +33,11 @@ class Editor extends React.Component {
 			if(isReadOnly) {
 				editor.setOptions({maxLines: lines});
 			} else {
-				editor.setOptions({minLines: 10});
-				editor.setOptions({maxLines: 60});
+				editor.setOptions({minLines: 10, maxLines: 9999});
 			}
 			editor.selection.moveTo(0);
 		} else {
-			editor.setOptions({minLines: 10});
-			editor.setOptions({maxLines: 60});
+			editor.setOptions({minLines: 10, maxLines: 9999});
 		}
 	}
 

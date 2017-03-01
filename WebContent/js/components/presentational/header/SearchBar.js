@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router';
-import $ from 'jquery';
 
 import {storeSearchQuery, getSearchQueries} from '../../../utility/persistUserInfo';
 import Suggestions from '../listing/FilterByLanguage/Suggestions';
@@ -18,15 +17,14 @@ class SearchBar extends React.Component {
 		this.state = {input: ''};
 	}
 
-
 	getInput(e) {
-		this.setState({input: e.target.value});
+		const suggestions = getSearchQueries(e.target.value);
+		this.setState({input: e.target.value, suggestions});
 	}
 
 	doSearch() {
+		storeSearchQuery(this.state.input);
 		this.context.router.push('/opinnaytetyo/search/' + this.state.input);
-		this.setState({input: ''});
-		$('.search-input').val('');
 	}
 
 	render() {
@@ -42,7 +40,7 @@ class SearchBar extends React.Component {
 				<button className='do-search' onClick={this.doSearch}>
 					<i class="fa fa-search" />
 				</button>
-				
+
 
 				{/* }<Link to={'/opinnaytetyo/search/' + this.state.input}>
 					<button className='do-search'>

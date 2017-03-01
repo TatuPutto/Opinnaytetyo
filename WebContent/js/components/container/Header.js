@@ -13,7 +13,7 @@ class Header extends React.Component {
 	render() {
 		return (
 			<div className='header'>
-				<img className='logo' src="http://placehold.it/150x50" />
+				<img className='logo' src="http://placehold.it/130x35" />
 				<SearchBar search={this.props.search} />
 				<NavMenu />
 				<UserInfo

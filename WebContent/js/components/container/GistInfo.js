@@ -17,59 +17,157 @@ import {
 class GistInfo extends React.Component {
 	render() {
 		const {
-			gist,
+			id,
+			name,
+			description,
+			isPublic,
 			isStarred,
-			isStarring,
-			toggleStarredStatus,
-			forkGist,
-			deleteGist,
-			userId,
-		} = this.props;
+			owner,
+			createdAt,
+			updatedAt,
+			createdAtUnformatted,
+			updatedAtUnformatted,
+			forkInfo,
+			isForking,
+		} = this.props.gist;
 
-		console.log(gist.owner);
+		return (
+			<div className='gist-info'>
+				<div className='active-gist-title'>
+					<span className={'owner-avatar'}>
+						<img src={owner.avatarUrl} />
+					</span>
+					<span className='title-wrapper'>
+						<span className={'title'}>
+							<h2>
+								<Link to={'/opinnaytetyo/gist/' + id}>
+									{name}
+								</Link>
+							</h2>
+						</span>
+						<br />
+						<span className={'creation-info'}>
+							<Link to={'/opinnaytetyo/search/' + owner.login}>
+								{owner.login}
+							</Link>
 
-			return (
-				<div className='gist-info'>
-					<span className='owner'>
-						<img id='owner-avatar' src={gist.owner.avatar_url} />
-						<Link to={'/opinnaytetyo/search/' + gist.owner.login} id='view-gist'>
-							{gist.owner.login}
-						</Link>
+							{createdAtUnformatted === updatedAtUnformatted && !forkInfo &&
+								<p>&nbsp;| luotu {createdAt}</p>
+							}
+
+							{createdAtUnformatted !== updatedAtUnformatted && !forkInfo &&
+								<p>&nbsp;| luotu {createdAt} &ndash; päivitetty {updatedAt}</p>
+							}
+
+							{createdAtUnformatted === updatedAtUnformatted && forkInfo &&
+								<p>&nbsp;| luotu {createdAt} &ndash; forkattu kohteesta
+									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+										&nbsp;{forkInfo.owner}
+									</Link>&nbsp;/&nbsp;
+									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+										{name}
+									</Link>
+								</p>
+							}
+
+							{createdAtUnformatted !== updatedAtUnformatted && forkInfo &&
+								<p>&nbsp;| päivitetty {updatedAt} &ndash; forkattu kohteesta
+									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+										&nbsp;{forkInfo.owner}
+									</Link>&nbsp;/&nbsp;
+									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+										{name}
+									</Link>
+								</p>
+							}
+
+
+
+							{/*}
+							{forkInfo &&
+								<p>&nbsp;| Luotu {createdAt} &ndash; forkattu kohteesta
+									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+										&nbsp;{forkInfo.owner}
+									</Link>&nbsp;/&nbsp;
+									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+										{name}
+									</Link>
+								</p>
+							}*/}
+
+						</span>
 					</span>
 
-					{gist.owner.id === Number(userId) &&
+					{/*}{forkInfo !== null &&
+						&nbsp;| Luotu {createdAt} &ndash forkattu kohteesta {forkInfo.owner} / {name};
+					}*/}
+
+					{owner.id === this.props.userId &&
 						<GistActionsOwner
-							id={gist.id}
+							id={id}
 							isStarred={isStarred}
-							isStarring={isStarring}
-							starGist={toggleStarredStatus}
-							deleteGist={deleteGist}
+							starGist={this.props.toggleStarredStatus}
+							deleteGist={this.props.deleteGist}
 						/>
 					}
 
-					{gist.owner.id !== Number(userId) &&
+					{owner.id !== this.props.userId &&
 						<GistActions
-							id={gist.id}
+							id={id}
 							isStarred={isStarred}
-							isStarring={isStarring}
-							starGist={toggleStarredStatus}
-							forkGist={forkGist}
+							isForking={isForking}
+							starGist={this.props.toggleStarredStatus}
+							forkGist={this.props.forkGist}
 						/>
 					}
+				</div>
+				<div className='active-gist-description'>
+					<p>{description}</p>
+				</div>
+
+			 {/*}
+
+				<span className='owner'>
+					<img id='owner-avatar' src={owner.avatarUrl} />
+					<Link to={'/opinnaytetyo/search/' + owner.login} id='view-gist'>
+						{owner.login}
+					</Link>
+				</span>
+
+				{owner.id === this.props.userId &&
+					<GistActionsOwner
+						id={id}
+						isStarred={isStarred}
+						starGist={this.props.toggleStarredStatus}
+						deleteGist={this.props.deleteGist}
+					/>
+				}
+
+				{owner.id !== this.props.userId &&
+					<GistActions
+						id={id}
+						isStarred={isStarred}
+						isForking={isForking}
+						starGist={this.props.toggleStarredStatus}
+						forkGist={this.props.forkGist}
+					/>
+				}
 
 				<div className='active-gist-info'>
-					<Link to={'/opinnaytetyo/gist/' + gist.id}>
+					<Link to={'/opinnaytetyo/gist/' + id}>
 						<h2 className='active-gist-name'>
-							{gist.files[0].filename}
+							{name}
 						</h2>
 					</Link>
-					<span style={{background: 'lightblue', marginLeft: '15px', fontSize: '12px', borderRadius: '2px', padding: '0px 2px'}}>
-						{gist.public ? 'Julkinen' : 'Salainen'}
+
+					<span>
+						{isPublic ? 'Julkinen' : 'Salainen'}
 					</span>
 					<div className='active-gist-description'>
-						<p>{gist.description}</p>
+						<p>{description}</p>
 					</div>
 				</div>
+				*/}
 			</div>
 		);
 	}
@@ -85,10 +183,8 @@ GistInfo.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		gist: state.activeGist.gist,
-		isStarred: state.activeGist.isStarred,
-		isStarring: state.activeGist.isStarring,
-		userId: state.user.id,
+		gist: state.activeGist,
+		userId: Number(state.user.id),
 	};
 }
 
