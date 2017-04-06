@@ -21,8 +21,8 @@ import tatuputto.opinnaytetyo.service.GetAccessToken;
 @Controller
 public class AccountController {
 	//Sovellukselle rekisteröidyt avaimet.
-    public static final String clientId = "566fea61a0cebae27268";
-	public static final String clientSecret = "87454f258250d9170e31a8f13b51e6a612bd6545";
+    public static final String clientId = "<clientId>";
+	public static final String clientSecret = "<clientSecret>";
 	
 	private GetAccessToken getAccessToken;
 	private CheckAccessToken checkAccessToken;
